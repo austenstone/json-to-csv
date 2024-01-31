@@ -1,6 +1,6 @@
 import { DefaultArtifactClient } from "@actions/artifact";
 import { setOutput, getInput } from "@actions/core";
-import { readFileSync } from "fs";
+import { readdirSync } from "fs";
 import { json2csv } from "json-2-csv";
 
 interface Input {
@@ -20,7 +20,14 @@ const getInputs = async (): Promise<Input> => {
     if (!artifactResponse) throw new Error(`Artifact ${result.jsonArtifactName} not found`);
     const { downloadPath } = await artifact.downloadArtifact(artifactResponse.artifact.id)
     if (!downloadPath) throw new Error(`Artifact ${result.jsonArtifactName} failed to download`);
-    result.json = JSON.parse(readFileSync(downloadPath, "utf8"));
+    console.log(`Artifact ${result.jsonArtifactName} downloaded to ${downloadPath}`);
+    // show files at downloadPath reading dir
+
+    console.log(`Reading ${downloadPath}`);
+    readdirSync(downloadPath).forEach(file => {
+      console.log(file);
+    });
+
   } else {
     result.json = JSON.parse(getInput("json"));
   }
