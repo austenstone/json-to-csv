@@ -3,17 +3,15 @@ import 'dotenv/config';
 import * as cp from 'child_process';
 import * as path from 'path';
 import { test } from '@jest/globals';
-import { readFileSync } from 'fs';
+// import { readFileSync } from 'fs';
+
+// const JSON_EXAMPLE = readFileSync(path.join(__dirname, 'code-scanning.json'), 'utf-8');
 
 const addInput = (key, value) => process.env[`INPUT_${key.replace(/ /g, '-').toUpperCase()}`] = value || ''
-
-const JSON_EXAMPLE = readFileSync(path.join(__dirname, 'code-scanning.json'), 'utf-8');
-
 const input: any = {
-  json: JSON_EXAMPLE,
+  json: '[{"name":{"first":"austen","last":"stone"},"age":25,"occupation":"developer"},{"name":{"first":"john","last":"smith"},"age":50,"occupation":"boss"}]',
   options: undefined
 }
-
 test('test run', () => {
   Object.entries(input).forEach(([key, value]) => addInput(key, value));
   const np = process.execPath;
