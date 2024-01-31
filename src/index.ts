@@ -1,12 +1,13 @@
 import { DefaultArtifactClient } from "@actions/artifact";
-import { setOutput, getInput, endGroup, startGroup, getBooleanInput } from "@actions/core";
+import { setOutput, getInput, getBooleanInput } from "@actions/core";
 import { info } from "console";
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "fs";
 import { json2csv } from "json-2-csv";
 
 interface Input {
   token: string;
-  json: object[];
+  json: object[][];
+  _jsonFileNames: string[];
   jsonArtifactName: string;
   options: object;
   createArtifact: boolean;
@@ -33,9 +34,10 @@ const getInputs = async (): Promise<Input> => {
     } else if (jsonFiles?.length > 1) {
       console.warn(`Found ${jsonFiles.length} JSON files, using the first one. Files: ${jsonFiles.join(', ')}`);
     }
-    result.json = JSON.parse(readFileSync(jsonFiles[0], 'utf-8'));
+    result.json = jsonFiles.map((file) => JSON.parse(readFileSync(file, 'utf-8')))
+    result._jsonFileNames = jsonFiles;
   } else {
-    result.json = JSON.parse(getInput("json"));
+    result.json = [JSON.parse(getInput("json"))];
   }
   const options = getInput("options");
   result.options = options ? JSON.parse(getInput("options")) : undefined;
@@ -45,17 +47,21 @@ const getInputs = async (): Promise<Input> => {
 }
 
 const inputs = await getInputs();
-const csv = await json2csv(inputs.json, inputs.options);
-setOutput("csv", csv.replace(/'/g, "\\'"));
-
-startGroup("CSV");
-info(csv);
-endGroup();
+inputs.json.forEach((json, index) => {
+  const csv = json2csv(json, inputs.options);
+  setOutput(index === 0 ? 'csv' : `csv-${index}`, csv.replace(/'/g, "\\'"));
+});
+const csvs = inputs.json
+.map((json) => json2csv(json, inputs.options))
+.map((csv) => csv.replace(/'/g, "\\'"));
+csvs.forEach((csv, index) => {
+  setOutput(index === 0 ? 'csv' : `csv-${index}`, csv);
+});
 
 if (inputs.createArtifact) {
   const artifact = new DefaultArtifactClient();
-  const fileName = `${inputs.createArtifactName}.json`;
-  writeFileSync(fileName, csv);
-  await artifact.uploadArtifact(inputs.createArtifactName, [fileName], '.', { compressionLevel: 9 });
+  const csvFiles = inputs._jsonFileNames.map((file) => file.replace('.json', '.csv'));
+  csvs.forEach((csv, index) => writeFileSync(csvFiles[index], csv));
+  await artifact.uploadArtifact(inputs.createArtifactName, csvFiles, '.', { compressionLevel: 9 });
   info(`Artifact ${inputs.createArtifactName} created successfully`);
 }
