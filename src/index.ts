@@ -28,7 +28,7 @@ const getInputs = async (): Promise<Input> => {
     if (!jsonFiles) {
       throw new Error(`No JSON files found in artifact ${result.jsonArtifactName}`);
     } else if (jsonFiles?.length > 1) {
-      console.warn(`Found ${jsonFiles.length} JSON files, using the first one`);
+      console.warn(`Found ${jsonFiles.length} JSON files, using the first one. Files: ${jsonFiles.join(', ')}`);
     }
     result.json = JSON.parse(readFileSync(jsonFiles[0], 'utf-8'));
   } else {
