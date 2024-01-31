@@ -7,17 +7,12 @@ import { readFileSync } from 'fs';
 
 const addInput = (key, value) => process.env[`INPUT_${key.replace(/ /g, '-').toUpperCase()}`] = value || ''
 
-readFileSync(path.join(__dirname, 'code-scanning.json'), 'utf-8');
-const JSON_EXAMPLE = '[{"name": "test"}, {"name": "test2"}]';
+const JSON_EXAMPLE = readFileSync(path.join(__dirname, 'code-scanning.json'), 'utf-8');
 
 const input: any = {
-  token: process.env.GITHUB_TOKEN,
   json: JSON_EXAMPLE,
-  options: undefined,
-  'create-artifact': true,
-  'artifact-name': 'csv',
+  options: undefined
 }
-
 
 test('test run', () => {
   Object.entries(input).forEach(([key, value]) => addInput(key, value));
