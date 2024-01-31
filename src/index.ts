@@ -42,7 +42,7 @@ const getInputs = async (): Promise<Input> => {
   const options = getInput("options");
   result.options = options ? JSON.parse(getInput("options")) : undefined;
   result.createArtifact = getBooleanInput("create-artifact");
-  result.createArtifactName = getInput("create-artifact-name");
+  result.createArtifactName = getInput("artifact-name");
   return new Promise((resolve) => resolve(result));
 }
 
@@ -63,5 +63,6 @@ if (inputs.createArtifact) {
   const csvFiles = inputs._jsonFileNames.map((file) => file.replace('.json', '.csv'));
   csvs.forEach((csv, index) => writeFileSync(csvFiles[index], csv));
   await artifact.uploadArtifact(inputs.createArtifactName, csvFiles, '.', { compressionLevel: 9 });
+  setOutput('artifact-name', inputs.createArtifactName);
   info(`Artifact ${inputs.createArtifactName} created successfully`);
 }

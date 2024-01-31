@@ -12,9 +12,6 @@ inputs:
   json-artifact-name:
     description: "The name of the JSON artifact to convert to CSV"
     required: false
-  json-artifact-path:
-    description: "The path to the JSON artifact to convert to CSV"
-    required: false
   options:
     description: "A JSON string of options https://www.npmjs.com/package/json-2-csv#json2csvarray-options--string"
     required: false
@@ -22,7 +19,7 @@ inputs:
     description: Whether to create an artifact with the alerts
     required: false
     default: true
-  create-artifact-name:
+  artifact-name:
     description: The name of the artifact to create
     required: false
     default: ${{ github.workflow }}
@@ -30,6 +27,8 @@ inputs:
 outputs:
   csv:
     description: "A CSV string"
+  artifact-name:
+    description: "The name of the artifact created"
 
 runs:
   using: "node20"
