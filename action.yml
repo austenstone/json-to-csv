@@ -7,19 +7,11 @@ branding:
 
 inputs:
   json:
-    description: "A JSON string"
+    description: "The JSON to convert to CSV"
     required: true
   options:
     description: "A JSON string of options https://www.npmjs.com/package/json-2-csv#json2csvarray-options--string"
     required: false
-  create-artifact:
-    description: "Create an artifact with the CSV string"
-    required: false
-    default: false
-  artifact-name:
-    description: "The name of the artifact"
-    required: false
-    default: "csv"
 
 outputs:
   csv:

@@ -1,9 +1,9 @@
-# Action
+# JSON to CSV Action
 
-This repository serves as a [template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) for TypeScript [Actions](https://docs.github.com/en/actions).
+This action converts a JSON string to a CSV string.
 
 ## Usage
-Create a workflow (eg: `.github/workflows/seat-count.yml`). See [Creating a Workflow file](https://help.github.com/en/articles/configuring-a-workflow#creating-a-workflow-file).
+Create a workflow (eg: `.github/workflows/csv.yml`). See [Creating a Workflow file](https://help.github.com/en/articles/configuring-a-workflow#creating-a-workflow-file).
 
 <!-- 
 ### PAT(Personal Access Token)
@@ -27,7 +27,11 @@ jobs:
     name: Run Action
     runs-on: ubuntu-latest
     steps:
-      - uses: austenstone/action-typescript@main
+      - uses: austenstone/json-to-csv@main
+        id: csv
+        with:
+          json: '[{"name": "test"}, {"name": "test2"}]'
+      - run: echo "${{ steps.csv.outputs.csv }}"
 ```
 
 ## ➡️ Inputs
@@ -35,14 +39,15 @@ Various inputs are defined in [`action.yml`](action.yml):
 
 | Name | Description | Default |
 | --- | - | - |
-| github&#x2011;token | Token to use to authorize. | ${{&nbsp;github.token&nbsp;}} |
+| json | The JSON to convert to CSV. | N/A |
+| options | A JSON string of options https://www.npmjs.com/package/json-2-csv#json2csvarray-options--string | N/A |
 
-<!-- 
+
 ## ⬅️ Outputs
 | Name | Description |
 | --- | - |
-| output | The output. |
--->
+| csv | The csv output. |
+
 
 ## Further help
 To get more help on the Actions see [documentation](https://docs.github.com/en/actions).
