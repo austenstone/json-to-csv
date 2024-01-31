@@ -1,4 +1,4 @@
-name: Convert JSON to CSV
+name: JSON to CSV Action
 author: Austen Stone
 description: Convert JSON to CSV format
 branding:
