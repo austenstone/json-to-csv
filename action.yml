@@ -6,10 +6,24 @@ branding:
   color: "blue"
 
 inputs:
-  github-token:
-    description: The GitHub token used to create an authenticated client
-    default: ${{ github.token }}
+  json:
+    description: "A JSON string"
+    required: true
+  options:
+    description: "A JSON string of options https://www.npmjs.com/package/json-2-csv#json2csvarray-options--string"
     required: false
+  create-artifact:
+    description: "Create an artifact with the CSV string"
+    required: false
+    default: false
+  artifact-name:
+    description: "The name of the artifact"
+    required: false
+    default: "csv"
+
+outputs:
+  csv:
+    description: "A CSV string"
 
 runs:
   using: "node16"

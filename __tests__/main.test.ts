@@ -1,17 +1,25 @@
 import * as process from 'process';
+import 'dotenv/config';
 import * as cp from 'child_process';
 import * as path from 'path';
 import { test } from '@jest/globals';
+import { readFileSync } from 'fs';
 
 const addInput = (key, value) => process.env[`INPUT_${key.replace(/ /g, '-').toUpperCase()}`] = value || ''
 
+const JSON_EXAMPLE = readFileSync(path.join(__dirname, 'code-scanning.json'), 'utf-8');
+
 const input: any = {
-  'github-token': process.env.GITHUB_TOKEN
+  token: process.env.GITHUB_TOKEN,
+  json: JSON_EXAMPLE,
+  options: undefined,
+  'create-artifact': true,
+  'artifact-name': 'csv',
 }
+
 
 test('test run', () => {
   Object.entries(input).forEach(([key, value]) => addInput(key, value));
-  process.env['GITHUB_REPOSITORY'] = `austenstone/${path.basename(process.cwd())}`;
   const np = process.execPath;
   const ip = path.join(__dirname, '..', 'dist', 'index.js');
   const options: cp.ExecFileSyncOptions = {
