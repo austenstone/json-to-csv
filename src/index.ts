@@ -1,6 +1,7 @@
 import { DefaultArtifactClient } from "@actions/artifact";
-import { setOutput, getInput } from "@actions/core";
-import { mkdirSync, readFileSync, readdirSync } from "fs";
+import { setOutput, getInput, endGroup, startGroup, getBooleanInput } from "@actions/core";
+import { info } from "console";
+import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "fs";
 import { json2csv } from "json-2-csv";
 
 interface Input {
@@ -8,6 +9,8 @@ interface Input {
   json: object[];
   jsonArtifactName: string;
   options: object;
+  createArtifact: boolean;
+  createArtifactName: string;
 }
 
 const getInputs = async (): Promise<Input> => {
@@ -36,9 +39,23 @@ const getInputs = async (): Promise<Input> => {
   }
   const options = getInput("options");
   result.options = options ? JSON.parse(getInput("options")) : undefined;
+  result.createArtifact = getBooleanInput("create-artifact");
+  result.createArtifactName = getInput("create-artifact-name");
   return new Promise((resolve) => resolve(result));
 }
 
 const inputs = await getInputs();
 const csv = await json2csv(inputs.json, inputs.options);
 setOutput("csv", csv.replace(/'/g, "\\'"));
+
+startGroup("CSV");
+info(csv);
+endGroup();
+
+if (inputs.createArtifact) {
+  const artifact = new DefaultArtifactClient();
+  const fileName = `${inputs.createArtifactName}.json`;
+  writeFileSync(fileName, csv);
+  await artifact.uploadArtifact(inputs.createArtifactName, [fileName], '.', { compressionLevel: 9 });
+  info(`Artifact ${inputs.createArtifactName} created successfully`);
+}

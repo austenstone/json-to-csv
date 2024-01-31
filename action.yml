@@ -18,6 +18,10 @@ inputs:
   options:
     description: "A JSON string of options https://www.npmjs.com/package/json-2-csv#json2csvarray-options--string"
     required: false
+  create-artifact:
+    description: Whether to create an artifact with the alerts
+    required: false
+    default: true
 
 outputs:
   csv:
