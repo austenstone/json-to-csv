@@ -8,7 +8,7 @@ branding:
 inputs:
   json:
     description: "The JSON to convert to CSV"
-    required: true
+    required: false
   json-artifact-name:
     description: "The name of the JSON artifact to convert to CSV"
     required: false
