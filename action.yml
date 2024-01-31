@@ -22,6 +22,10 @@ inputs:
     description: Whether to create an artifact with the alerts
     required: false
     default: true
+  create-artifact-name:
+    description: The name of the artifact to create
+    required: false
+    default: ${{ github.workflow }}
 
 outputs:
   csv:
