@@ -1,10 +1,10 @@
 import { setOutput, getInput } from "@actions/core";
-import { json2csv } from 'json-2-csv';
+import { json2csv } from "json-2-csv";
 
 interface Input {
   token: string;
-  json: any;
-  options: any;
+  json: object[];
+  options: object;
 }
 
 export function getInputs(): Input {

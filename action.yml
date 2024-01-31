@@ -1,8 +1,8 @@
-name: TypeScript Action
+name: JSON to CSV
 author: Austen Stone
-description: A TypeScript Action
+description: Convert JSON to CSV format
 branding:
-  icon: "plus"
+  icon: "align-justify"
   color: "blue"
 
 inputs:
