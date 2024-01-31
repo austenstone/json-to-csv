@@ -10,7 +10,9 @@ import { test } from '@jest/globals';
 const addInput = (key, value) => process.env[`INPUT_${key.replace(/ /g, '-').toUpperCase()}`] = value || ''
 const input: any = {
   json: '[{"name":{"first":"austen","last":"stone"},"age":25,"occupation":"developer"},{"name":{"first":"john","last":"smith"},"age":50,"occupation":"boss"}]',
-  options: undefined
+  options: undefined,
+  'create-artifact': true,
+  'artifact-name': 'test'
 }
 test('test run', () => {
   Object.entries(input).forEach(([key, value]) => addInput(key, value));
