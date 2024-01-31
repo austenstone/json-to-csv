@@ -18,6 +18,8 @@ const getInputs = async (): Promise<Input> => {
   const result = {} as Input;
   result.token = getInput("token");
   result.jsonArtifactName = getInput("json-artifact-name");
+  result.createArtifact = getBooleanInput("create-artifact");
+  result.createArtifactName = getInput("artifact-name");
   if (result.jsonArtifactName) {
     const tmpPath = '.json-to-csv';
     const artifact = new DefaultArtifactClient()
@@ -38,11 +40,10 @@ const getInputs = async (): Promise<Input> => {
     result._jsonFileNames = jsonFiles;
   } else {
     result.json = [JSON.parse(getInput("json"))];
+    result._jsonFileNames = [`${result.createArtifactName}.json`]
   }
   const options = getInput("options");
   result.options = options ? JSON.parse(getInput("options")) : undefined;
-  result.createArtifact = getBooleanInput("create-artifact");
-  result.createArtifactName = getInput("artifact-name");
   return new Promise((resolve) => resolve(result));
 }
 
