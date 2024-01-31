@@ -24,7 +24,7 @@ const getInputs = async (): Promise<Input> => {
     });
     if (!downloadPath) throw new Error(`Artifact ${result.jsonArtifactName} not found`);
     console.log(`Artifact ${result.jsonArtifactName} downloaded to ${downloadPath}`);
-    const jsonFiles = readdirSync(downloadPath).find((file) => file.endsWith('.json'));
+    const jsonFiles = readdirSync(downloadPath).filter((file) => file.endsWith('.json'));
     if (!jsonFiles) {
       throw new Error(`No JSON files found in artifact ${result.jsonArtifactName}`);
     } else if (jsonFiles?.length > 1) {
