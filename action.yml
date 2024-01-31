@@ -9,6 +9,9 @@ inputs:
   json:
     description: "The JSON to convert to CSV"
     required: true
+  json-artifact-name:
+    description: "The name of the JSON artifact to convert to CSV"
+    required: false
   options:
     description: "A JSON string of options https://www.npmjs.com/package/json-2-csv#json2csvarray-options--string"
     required: false
