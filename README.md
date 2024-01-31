@@ -30,7 +30,7 @@ jobs:
       - uses: austenstone/json-to-csv@main
         id: csv
         with:
-          json: '[{"name": "test"}, {"name": "test2"}]'
+          json: '[{"name":"John","age":30,"city":"New York"},{"name":"Jane","age":25,"city":"New York"}]'
       - run: echo "${{ steps.csv.outputs.csv }}"
 ```
 
