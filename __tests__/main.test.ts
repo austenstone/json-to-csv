@@ -13,7 +13,7 @@ const input: any = {
   options: undefined,
   'create-artifact': true,
   'artifact-name': 'test',
-  ACTIONS_RUNTIME_TOKEN: process.env.GITHUB_TOKEN,
+  'github-token': process.env.GITHUB_TOKEN
 }
 test('test run', () => {
   Object.entries(input).forEach(([key, value]) => addInput(key, value));
