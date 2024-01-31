@@ -18,6 +18,7 @@ const input: any = {
 test('test run', () => {
   Object.entries(input).forEach(([key, value]) => addInput(key, value));
   process.env['GITHUB_REPOSITORY'] = `austenstone/${path.basename(process.cwd())}`;
+  process.env['ACTIONS_RUNTIME_TOKEN'] = process.env.GITHUB_TOKEN;
   const np = process.execPath;
   const ip = path.join(__dirname, '..', 'dist', 'index.js');
   const options: cp.ExecFileSyncOptions = {
