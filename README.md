@@ -18,7 +18,7 @@ If your organization has SAML enabled you must authorize the PAT, see [Authorizi
 
 #### Example
 ```yml
-name: TypeScript Action Workflow
+name: JSON to CSV
 on:
   workflow_dispatch:
 

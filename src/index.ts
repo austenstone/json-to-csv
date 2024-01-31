@@ -18,4 +18,4 @@ export function getInputs(): Input {
 
 const inputs = getInputs();
 const csv = await json2csv(inputs.json, inputs.options);
-setOutput("csv", csv);
+setOutput("csv", csv.replace(/'/g, "\\'"));
