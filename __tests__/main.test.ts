@@ -12,7 +12,8 @@ const input: any = {
   json: '[{"name":{"first":"austen","last":"stone"},"age":25,"occupation":"developer"},{"name":{"first":"john","last":"smith"},"age":50,"occupation":"boss"}]',
   options: undefined,
   'create-artifact': true,
-  'artifact-name': 'test'
+  'artifact-name': 'test',
+  ACTIONS_RUNTIME_TOKEN: process.env.GITHUB_TOKEN,
 }
 test('test run', () => {
   Object.entries(input).forEach(([key, value]) => addInput(key, value));
