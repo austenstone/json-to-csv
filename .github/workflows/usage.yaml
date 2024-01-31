@@ -12,5 +12,5 @@ jobs:
       - uses: ./
         id: csv
         with:
-          json: '[{"name": "test"}, {"name": "test2"}]'
+          json: '[{"name":{"first":"austen","last":"stone"},"age":25,"occupation":"developer"},{"name":{"first":"john","last":"smith"},"age":50,"occupation":"boss"}]'
       - run: echo "${{ steps.csv.outputs.csv }}"
